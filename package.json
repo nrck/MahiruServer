@@ -1,0 +1,30 @@
+{
+  "name": "working-mahiru",
+  "version": "0.0.1",
+  "description": "Mahiru Frontend is very cute jobnet control system.",
+  "main": "mahiruFrontend.js",
+  "author": {
+    "name": "nr_ck",
+    "url": "http://www.cklab.info"
+  },
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "^4.16.2",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.0",
+    "serve-favicon": "~2.4.5",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nrck/MahiruServer.git"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=6.9.0"
+  }
+}
