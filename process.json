@@ -1,0 +1,12 @@
+{
+    "name": "mahiru",
+    "script": "mahiruFrontend.js",
+    "node_args" : "",
+    "error_file": "mahiru-stderr.log",
+    "out_file": "mahiru-stdout.log",
+    "instances": 1,
+    "merge_logs": true,
+    "pid_file": "mahiru.pid",
+    "exec_mode": "fork",
+    "autorestart": true
+  }
