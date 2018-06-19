@@ -16,12 +16,11 @@
     },
     "include": [
         "src/**/*",
-        "test/**/*",
-        "tool/**/*"
+        "test/**/*"
     ],
     "exclude": [
-        "node_modules",
-        "config",
-        "old"
+        "node_modules/**/*",
+        "config/**/*",
+        "old/**/*"
     ]
 }
