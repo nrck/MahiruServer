@@ -95,7 +95,7 @@ export interface SendJobJSON {
     data: SerialJobJSON;
 }
 
-export interface ContextifiedSandbox extends Object {
+export interface ApiContextifiedSandbox extends Object {
     request: Express.Request;
     response: Express.Response;
     runningJobnets: JobnetJSON[];
