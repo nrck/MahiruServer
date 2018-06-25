@@ -1,49 +1,18 @@
 import * as Express from 'express';
 import { Api } from './api';
+import { WebUI } from './webUI';
 
 class App {
-    public static WEB_UI_PORT = '8080';
-    public static STATUS_CODE: string[] = [
-        '400 Bad Request\n',
-        '401 Unauthorized\n',
-        '402 Payment Required\n',
-        '403 Forbidden\n',
-        '404 Not Found\n',
-        '405 Method Not Allowed\n',
-        '406 Not Acceptable\n',
-        '407 Proxy Authentication Required\n',
-        '408 Request Timeout\n',
-        '409 Conflict\n',
-        '410 Gone\n',
-        '411 Length Required\n',
-        '412 Precondition Failed\n',
-        '413 Request Entity Too Large\n',
-        '414 Request-URI Too Long\n',
-        '415 Unsupported Media Type\n',
-        '416 Requested Range Not Satisfiable\n',
-        '417 Expectation Failed\n',
-        '429 Too Many Requests\n',
-        '451 Unavailable For Legal Reasons\n',
-        '500 Internal Server Error\n',
-        '501 Not Implemented\n',
-        '502 Bad Gateway\n',
-        '503 Service Unavailable\n'
-    ];
-
     private ui = Express();
     private api = new Api();
 
     public init(): void {
-        this.ui.set('views', 'views/pages/');
+        this.ui.set('views', `${__dirname}/../views/pages/`);
         this.ui.set('view engine', 'ejs');
-        this.ui.get('/', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('views/pages/index'); });
+        this.ui.get('/', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('index', WebUI.renderIndex()); });
         this.ui.get('/api/:apiname', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { this.startApi(_req, _res, _next); });
         // this.ui.use(this.ui.router);
-        this.ui.listen(App.WEB_UI_PORT);
-    }
-
-    public static errorCode(code: string): string {
-        return App.STATUS_CODE.find((str: string): boolean => str.indexOf(code) >= 0) || '500 Error';
+        this.ui.listen(WebUI.WEB_UI_PORT);
     }
 
     public startApi(_req: Express.Request, _res: Express.Response, _next: Express.NextFunction): void {
@@ -51,7 +20,7 @@ class App {
         if (this.api.isExistScript(apipath) === false) {
             // tslint:disable-next-line:no-magic-numbers
             _res.status(404);
-            _res.send(App.errorCode('404'));
+            _res.send(WebUI.errorCode('404'));
 
             return;
         }
@@ -105,7 +74,7 @@ class App {
         if (typeof err !== 'undefined') {
             // tslint:disable-next-line:no-magic-numbers
             _res.status(500);
-            _res.send(App.errorCode('500'));
+            _res.send(WebUI.errorCode('500'));
 
             return;
         }

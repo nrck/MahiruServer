@@ -2,6 +2,7 @@
     "compilerOptions": {
         "target": "es2017",
         "module": "commonjs",
+        "allowJs": true,
         "declaration": true,
         "outDir": "./out",
         "removeComments": true,
