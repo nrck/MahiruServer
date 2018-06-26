@@ -1,18 +1,31 @@
 import * as Express from 'express';
 import { Api } from './api';
+import { ClientManager } from './clientManager';
+import { ApiContextifiedSandbox } from './interface';
 import { WebUI } from './webUI';
 
 class App {
-    private ui = Express();
-    private api = new Api();
+    private static SERVER_PORT = 27131; // ポニーテール小さい
+    private static SERVER_HOST = '127.0.0.1';
 
+    private ui = Express();
+    private api = new Api('./api/');
+    private cm = new ClientManager(App.SERVER_HOST, App.SERVER_PORT, '/fep');
+
+    // 初期化処理
     public init(): void {
-        this.ui.set('views', `${__dirname}/../views/pages/`);
+        // this.ui.set('views', `${__dirname}/../views/pages/`); // WinとUNIXで処理を変えたいね
+        this.ui.set('views', './views/pages/');
         this.ui.set('view engine', 'ejs');
-        this.ui.get('/', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('index', WebUI.renderIndex()); });
-        this.ui.get('/api/:apiname', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { this.startApi(_req, _res, _next); });
+
+        this.setRouter();
         // this.ui.use(this.ui.router);
         this.ui.listen(WebUI.WEB_UI_PORT);
+    }
+
+    public setRouter(): void {
+        this.ui.get('/', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('index', WebUI.renderIndex()); });
+        this.ui.get('/api/:apiname', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { this.startApi(_req, _res, _next); });
     }
 
     public startApi(_req: Express.Request, _res: Express.Response, _next: Express.NextFunction): void {
@@ -24,51 +37,10 @@ class App {
 
             return;
         }
-        this.api.sandbox = {
-            'agent': {
-                'define': [
-                    {
-                        'ipaddress': '192.168.2.39',
-                        'name': 'testAgent',
-                        'sharekey': '1qaz2wsx'
-                    },
-                    {
-                        'ipaddress': '192.168.2.39',
-                        'name': 'testAgent2',
-                        'sharekey': '1234qwer'
-                    }
-                ],
-                'state': [
-                    {
-                        'connected': false,
-                        'ipaddress': '192.168.2.39',
-                        'name': 'testAgent',
-                        'runjob': undefined,
-                        'socketID': '1qaz2wsx'
-                    },
-                    {
-                        'connected': true,
-                        'ipaddress': '192.168.2.39',
-                        'name': 'testAgent2',
-                        'runjob': undefined,
-                        'socketID': '1234qwer'
-                    }
-                ]
-            },
-            'define': {
-                'MAHIRU_PORT': 27132,
-                'POPLAR_PORT': 27131,
-                'SCANNING_TIME': 1000
-            },
-            'jobnet': {
-                'define': undefined,
-                'finished': undefined,
-                'running': undefined,
-                'waitting': undefined
-            },
-            'request': _req,
-            'response': _res
-        };
+
+        this.cm.getCollectInfo(_req, _res, (sandbox: ApiContextifiedSandbox): void => {
+            this.api.sandbox = sandbox;
+        });
 
         const err = this.api.runApi(apipath);
         if (typeof err !== 'undefined') {
