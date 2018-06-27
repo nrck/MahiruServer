@@ -242,7 +242,7 @@ export class ClientManager {
             'response': response
         });
 
-        this.socket.emit('CollectInfo', (data: CollectInfo) => {
+        this.socket.emit(Common.EVENT_COLLECT_INFO, (data: CollectInfo) => {
             const sandbox: ApiContextifiedSandbox = {
                 'agent': data.agent,
                 'define': data.define,
