@@ -1,20 +1,15 @@
 import { EventEmitter } from 'events';
-import * as fs from 'fs';
 import * as SocketIOClient from 'socket.io-client';
 import { Common } from './common';
-import { AgentJSON, ApiContextifiedSandbox, CollectInfo, DataHeaderJSON } from './interface';
+import { ApiContextifiedSandbox, CollectInfo } from './interface';
 
 export class ClientManager {
-    private static CLIENT_CONFIG = './config/config.json';
     private static CLIENT_PROTOCOL = 'ws';
 
     private _socket: SocketIOClient.Socket;
     private _serverHost: string;
     private _port: number;
     private _namespace: string;
-    private _agentName = '';
-    private _shareKey = '';
-    private _agentIP = '';
     private _events: EventEmitter;
     private _no: number;
 
@@ -32,21 +27,7 @@ export class ClientManager {
         this._namespace = namespace || '/';
         this._socket = SocketIOClient(`${ClientManager.CLIENT_PROTOCOL}://${this.serverHost}:${this.port}${this.namespace}`, { 'autoConnect': false });
         this._no = no || 0;
-        this.setAgentInfo();
         this.initClient();
-    }
-
-
-    public get agentName(): string {
-        return this._agentName;
-    }
-
-    public get shareKey(): string {
-        return this._shareKey;
-    }
-
-    public get agentIP(): string {
-        return this._agentIP;
     }
 
     public get serverHost(): string {
@@ -77,13 +58,6 @@ export class ClientManager {
         this._no++;
 
         return this._no;
-    }
-
-    public setAgentInfo(): void {
-        const file = JSON.parse(fs.readFileSync(ClientManager.CLIENT_CONFIG, 'utf8'));
-        this._agentName = file.agentName;
-        this._agentIP = file.ip;
-        this._shareKey = file.sharekey;
     }
 
     /**
@@ -121,19 +95,6 @@ export class ClientManager {
     private connection(): void {
         // ログ
         Common.trace(Common.STATE_INFO, `${this.socket.io.uri}に接続しました。`);
-        const data: AgentJSON = {
-            'ipaddress': this.agentIP,
-            'name': this.agentName,
-            'sharekey': this.shareKey
-        };
-        this.socket.emit(Common.EVENT_HELLO, { 'data': data, 'header': this.createDataHeader(false, Common.EVENT_HELLO) }, (isSuccess: boolean) => {
-            if (isSuccess) {
-                Common.trace(Common.STATE_INFO, 'サーバ認証に成功しました。');
-            } else {
-                Common.trace(Common.STATE_ERROR, `サーバ認証に失敗したため、${this.socket.io.uri}を切断します。`);
-                this.close();
-            }
-        });
     }
 
     /**
@@ -145,103 +106,10 @@ export class ClientManager {
     }
 
     /**
-     * データヘッダーを作成します。
-     * @param isResponse 返信かどうか
-     * @param to 宛先
-     * @param type データ・タイプ
-     */
-    private createDataHeader(isResponse: false | [true, number], type: string): DataHeaderJSON {
-        const header: DataHeaderJSON = {
-            'from': this.agentName,
-            'isResponse': isResponse,
-            'no': this.no,
-            'timestamp': new Date(),
-            'to': Common.ENV_SERVER_HOST,
-            'type': type
-        };
-
-        return header;
-    }
-
-    /**
-     * データヘッダーを付加してメッセージを送付します。
-     * @param serialJob シリアルジョブ
-     * @param eventType イベントタイプ
-     * @param onAck Ack
-     */
-    // public putDataHeaderAndSendJob(serialJob: SerialJobJSON, eventType: string, onAck: Function): void {
-    //     // eventTypeの確認
-    //     switch (eventType) {
-    //         case Common.EVENT_EXEC_ERROR: break;
-    //         case Common.EVENT_EXEC_KILLED: break;
-    //         case Common.EVENT_EXEC_SUCCESS: break;
-    //         default:
-    //             Common.trace(Common.STATE_ERROR, `putDataHeaderAndSendJobで未定義のイベントが引数に渡されました。eventType=${eventType}`);
-
-    //             return;
-    //     }
-
-    //     // SendJobJSONの作成
-    //     const sendJobJSON: SendJobJSON = {
-    //         'data': serialJob,
-    //         'header': this.createDataHeader(false, eventType)
-    //     };
-
-    //     Common.trace(Common.STATE_INFO, `サーバにタイプ${eventType}、シリアル${sendJobJSON.data.serial}、ジョブコード${sendJobJSON.data.code}を送信しました。`);
-    //     this.socket.emit(eventType, sendJobJSON, onAck);
-    // }
-
-    /**
      * サーバにApi向けの情報を要求します。
      * @param callback 受信したSandboxを処理する関数
      */
     public getCollectInfo(request: Express.Request, response: Express.Response, callback: (sandbox: ApiContextifiedSandbox) => void): void {
-        callback({
-            'agent': {
-                'define': [
-                    {
-                        'ipaddress': '192.168.2.39',
-                        'name': 'testAgent',
-                        'sharekey': '1qaz2wsx'
-                    },
-                    {
-                        'ipaddress': '192.168.2.39',
-                        'name': 'testAgent2',
-                        'sharekey': '1234qwer'
-                    }
-                ],
-                'state': [
-                    {
-                        'connected': false,
-                        'ipaddress': '192.168.2.39',
-                        'name': 'testAgent',
-                        'runjob': undefined,
-                        'socketID': '1qaz2wsx'
-                    },
-                    {
-                        'connected': true,
-                        'ipaddress': '192.168.2.39',
-                        'name': 'testAgent2',
-                        'runjob': undefined,
-                        'socketID': '1234qwer'
-                    }
-                ]
-            },
-            'define': {
-                'MAHIRU_PORT': 27132,
-                'POPLAR_PORT': 27131,
-                'SCANNING_TIME': 1000
-            },
-            'jobnet': {
-                'define': undefined,
-                'finished': undefined,
-                'running': undefined,
-                'waitting': undefined
-            },
-            'request': request,
-            'response': response
-        });
-
         this.socket.emit(Common.EVENT_COLLECT_INFO, (data: CollectInfo) => {
             const sandbox: ApiContextifiedSandbox = {
                 'agent': data.agent,

@@ -2,7 +2,9 @@
     switch (request.method) {
         case 'GET':
             const resData = {
-                'jobnet': jobnet.finished　|| []
+                'define': define,
+                'agent': agent,
+                'jobnet': jobnet
             };
             response.status(200);
             response.end(JSON.stringify(resData, undefined, '  '));

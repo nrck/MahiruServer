@@ -18,6 +18,8 @@ class App {
         this.ui.set('views', './views/pages/');
         this.ui.set('view engine', 'ejs');
 
+        this.cm.open();
+
         this.setRouter();
         // this.ui.use(this.ui.router);
         this.ui.listen(WebUI.WEB_UI_PORT);
@@ -40,16 +42,18 @@ class App {
 
         this.cm.getCollectInfo(_req, _res, (sandbox: ApiContextifiedSandbox): void => {
             this.api.sandbox = sandbox;
+
+            const err = this.api.runApi(apipath);
+            if (typeof err !== 'undefined') {
+                // tslint:disable-next-line:no-magic-numbers
+                _res.status(500);
+                _res.send(WebUI.errorCode('500'));
+
+                return;
+            }
         });
 
-        const err = this.api.runApi(apipath);
-        if (typeof err !== 'undefined') {
-            // tslint:disable-next-line:no-magic-numbers
-            _res.status(500);
-            _res.send(WebUI.errorCode('500'));
-
-            return;
-        }
+        return;
     }
 }
 
