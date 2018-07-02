@@ -43,14 +43,15 @@ class App {
         this.cm.getCollectInfo(_req, _res, (sandbox: ApiContextifiedSandbox): void => {
             this.api.sandbox = sandbox;
 
-            const err = this.api.runApi(apipath);
-            if (typeof err !== 'undefined') {
-                // tslint:disable-next-line:no-magic-numbers
-                _res.status(500);
-                _res.send(WebUI.errorCode('500'));
+            this.api.runApi(apipath, (error?: Error, _sandbox?: ApiContextifiedSandbox) => {
+                if (typeof error !== 'undefined') {
+                    // tslint:disable-next-line:no-magic-numbers
+                    _res.status(500);
+                    _res.send(WebUI.errorCode('500'));
 
-                return;
-            }
+                    return;
+                }
+            });
         });
 
         return;

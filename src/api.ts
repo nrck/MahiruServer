@@ -1,6 +1,7 @@
 import * as child_process from 'child_process';
 import * as fs from 'fs';
 import * as vm from 'vm';
+import { Common } from './common';
 import * as IF from './interface';
 
 export class Api {
@@ -70,21 +71,27 @@ export class Api {
      * APIを実行します。
      * @param filename 実行対象のファイルネーム
      */
-    public runApi(filename: string): Error | undefined {
+    public runApi(filename: string, callback: (error: Error | undefined, sandbox: IF.ApiContextifiedSandbox | undefined) => void): void {
+        Common.trace(Common.STATE_DEBUG, `${this.runApi.name}が実行されました。`);
         const code = this.codeRoader(filename);
-
-        // codeがなかった場合
-        if (typeof code === 'undefined') return new Error(`${filename} is undefined`);
-
+        const mySandbox = this.sandbox;
         try {
-            vm.runInNewContext(code, this.sandbox, filename);
+            // codeがなかった場合
+            if (typeof code === 'undefined') throw new Error(`${filename} is undefined`);
+            // sandoboxが未定義のとき
+            if (typeof mySandbox === 'undefined') throw new Error('Sandbox is undefined');
+            vm.runInNewContext(code, mySandbox, filename);
 
             // 特に問題がなく終了したらErrorは無し
-            return undefined;
-        } catch (error) {
-            console.log(error.stack);
+            callback(undefined, mySandbox);
 
-            return error;
+            return;
+        } catch (error) {
+            Common.trace(Common.STATE_ERROR, error.message);
+            Common.trace(Common.STATE_DEBUG, error.stack);
+            callback(error, mySandbox);
+
+            return;
         }
     }
 }
