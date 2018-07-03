@@ -17,6 +17,8 @@ class App {
         // this.ui.set('views', `${__dirname}/../views/pages/`); // WinとUNIXで処理を変えたいね
         this.ui.set('views', './views/pages/');
         this.ui.set('view engine', 'ejs');
+        // this.ui.use(Express.static(`${__dirname}/views/static`));
+        this.ui.use(Express.static('./views/static'));
 
         this.cm.open();
 
