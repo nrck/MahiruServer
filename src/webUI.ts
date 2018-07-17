@@ -29,6 +29,36 @@ export class WebUI {
         '502 Bad Gateway\n',
         '503 Service Unavailable\n'
     ];
+    private static getState(): Promise<string> {
+        return new Promise((resolve: (value: string) => void, reject: (reason: Error) => void) => {
+            const URL = `http://${WebUI.MAHIRU_HOSTNAME}:${WebUI.WEB_UI_PORT}/api/state`;
+            Http.get(URL, (res: Http.IncomingMessage) => {
+                // Status Code 200以外はエラーで返す
+                const statusCode = res.statusCode;
+                // tslint:disable-next-line:no-magic-numbers
+                if (statusCode !== 200) {
+                    if (typeof statusCode !== 'undefined') {
+                        reject(new Error(WebUI.errorCode(statusCode.toString())));
+                    } else {
+                        reject(new Error(WebUI.errorCode('500')));
+                    }
+
+                    return;
+                }
+
+                let tmp = '';
+                res.setEncoding('utf8');
+                res.on('data', (data: string) => {
+                    tmp += data;
+                });
+                res.on('end', () => {
+                    resolve(tmp);
+                });
+            }).on('error', (error: Error) => {
+                reject(error);
+            });
+        });
+    }
 
     public static errorCode(code: string): string {
         return WebUI.STATUS_CODE.find((str: string): boolean => str.indexOf(code) >= 0) || '500 Internal Server Error\n';
@@ -36,39 +66,62 @@ export class WebUI {
 
     public static renderIndex(): object {
         const obj = {
+            'agents': '',
+            'jobnets': '',
             'pageTitle': 'ダッシュボード'
         };
+        /*
+        WebUI.getState().then(
+            (value: string) => {
+                obj.agents = JSON.parse(value).agent;
+                obj.jobnets = JSON.parse(value).jobnet;
+                return obj;
+            },
+            (error: Error) => {
+                obj.agents = error.message;
+                obj.jobnets = error.message;
+                return obj;
+            }
+        );
+        */
+        WebUI.getState2().then(
+            (value: object) => {
 
-        return obj;
+            }
+        )
+
     }
 
-
-    private static getState(callback: (res: string | undefined, err: Error | undefined) => {}): void {
+    private static async getState2(): Promise<object> {
         const URL = `http://${WebUI.MAHIRU_HOSTNAME}:${WebUI.WEB_UI_PORT}/api/state`;
-        Http.get(URL, (res: Http.IncomingMessage) => {
+        const obj = {
+            'error': new Error(),
+            'json': ''
+        };
+        await Http.get(URL, (res: Http.IncomingMessage) => {
             // Status Code 200以外はエラーで返す
             const statusCode = res.statusCode;
             // tslint:disable-next-line:no-magic-numbers
             if (statusCode !== 200) {
-                if (typeof statusCode !== 'undefined') {
-                    callback(undefined, new Error(WebUI.errorCode(statusCode.toString())));
-                } else {
-                    callback(undefined, new Error(WebUI.errorCode('500')));
-                }
+                obj.error = typeof statusCode !== 'undefined' ? new Error(WebUI.errorCode(statusCode.toString())) : obj.error = new Error(WebUI.errorCode('500'));
 
                 return;
             }
 
             let tmp = '';
             res.setEncoding('utf8');
+
             res.on('data', (data: string) => {
                 tmp += data;
             });
+
             res.on('end', () => {
-                callback(tmp, undefined);
+                obj.json = tmp;
             });
-        }).on('error', (error: Error) => {
-            callback(undefined, error);
         });
+
+        return obj;
     }
+
+
 }

@@ -1,36 +1,13 @@
 <!-- ステータス表示 Start -->
-<script type="text/javascript">
-window.onload = function () {
-    document.getElementById('stateText').innerHTML = 'Reading...';
-    $.get("http://localhost:17380/api/state", function(state){
-        const jobnets = JSON.parse(state).jobnet;
-        const agents = JSON.parse(state).agent;
-        let html = '';
-    
-        if (typeof jobnets !== 'undefined') {
-            html = html + '<h4>実行中ジョブネット</h4>\n';
-            html = html + '<ul>\n';
-            jobnets.forEach((jobnet) => {
-                html = html + '<li>' + jobnet.name + '(' + jobnet.serial + ') : ' + jobnet.state + '</li>\n';
-            });
-            html = html + '</ul>\n';
-        }
-
-        if (typeof agents !== 'undefined') {
-            html = html + '<h4>エージェント一覧</h4>\n';
-            html = html + '<ul>\n';
-            agents.forEach((agent) => {
-                html = html + '<li>' + agent.name + ' : ' + (agent.connected ? '接続中' : '未接続') + '</li>\n';
-            });
-            html = html + '</ul>\n';
-        }
-        document.getElementById('stateText').innerHTML = html;
-    });
-};
-</script> 
 <div>
     <h3>ステータス</h3>
-    <div id="stateText">
+    <div>
+        <h4>ジョブネット</h4>
+        <div><%= jobnets %></div>
+    </div>
+    <div>
+        <h4>エージェント</h4>
+        <div><%= agents %></div>
     </div>
 </div>
 <!-- ステータス表示 End -->
