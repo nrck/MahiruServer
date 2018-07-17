@@ -1,5 +1,8 @@
+import * as Http from 'http';
+
 export class WebUI {
     public static WEB_UI_PORT = '17380'; // いなみ80番ポート
+    public static MAHIRU_HOSTNAME = 'localhost';
     public static STATUS_CODE: string[] = [
         '400 Bad Request\n',
         '401 Unauthorized\n',
@@ -37,5 +40,35 @@ export class WebUI {
         };
 
         return obj;
+    }
+
+
+    private static getState(callback: (res: string | undefined, err: Error | undefined) => {}): void {
+        const URL = `http://${WebUI.MAHIRU_HOSTNAME}:${WebUI.WEB_UI_PORT}/api/state`;
+        Http.get(URL, (res: Http.IncomingMessage) => {
+            // Status Code 200以外はエラーで返す
+            const statusCode = res.statusCode;
+            // tslint:disable-next-line:no-magic-numbers
+            if (statusCode !== 200) {
+                if (typeof statusCode !== 'undefined') {
+                    callback(undefined, new Error(WebUI.errorCode(statusCode.toString())));
+                } else {
+                    callback(undefined, new Error(WebUI.errorCode('500')));
+                }
+
+                return;
+            }
+
+            let tmp = '';
+            res.setEncoding('utf8');
+            res.on('data', (data: string) => {
+                tmp += data;
+            });
+            res.on('end', () => {
+                callback(tmp, undefined);
+            });
+        }).on('error', (error: Error) => {
+            callback(undefined, error);
+        });
     }
 }
