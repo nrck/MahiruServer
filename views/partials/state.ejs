@@ -3,11 +3,19 @@
     <h3>ステータス</h3>
     <div>
         <h4>ジョブネット</h4>
-        <div><%= jobnets %></div>
+        <div>
+        <% jobnets.forEach(function (value, key) { %>
+            <p><%= value.name %></p>
+        <% }); %>
+        </div>
     </div>
     <div>
         <h4>エージェント</h4>
-        <div><%= agents %></div>
+        <div>
+        <% agents.forEach(function (value, key) { %>
+            <p><%= value.name %></p>
+        <% }); %>
+        </div>
     </div>
 </div>
 <!-- ステータス表示 End -->
