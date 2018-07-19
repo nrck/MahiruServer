@@ -1,20 +1,26 @@
+
 <!-- ステータス表示 Start -->
+
+<script src="./js/state.js"></script>
+
+<script type="text/javascript">
+    window.onload = function () {
+        getStatus();
+    };
+</script>
+
 <div>
     <h3>ステータス</h3>
     <div>
-        <h4>ジョブネット</h4>
-        <div>
-        <% jobnets.forEach(function (value, key) { %>
-            <p><%= value.name %></p>
-        <% }); %>
+        <h4>実行中ジョブネット</h4>
+        <div id="jobnet">
+        確認中
         </div>
     </div>
     <div>
         <h4>エージェント</h4>
-        <div>
-        <% agents.forEach(function (value, key) { %>
-            <p><%= value.name %></p>
-        <% }); %>
+        <div id ="agent">
+        確認中
         </div>
     </div>
 </div>

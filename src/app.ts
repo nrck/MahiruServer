@@ -28,18 +28,7 @@ class App {
     }
 
     public setRouter(): void {
-        this.ui.get('/', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => {
-            WebUI.renderIndex((agents: string, jobnets: string, pageTitle: string, err?: Error) => {
-                const obj = {
-                    'agents': JSON.parse(agents),
-                    'errorMes': err ? err.message : '',
-                    'jobnets': JSON.parse(jobnets),
-                    'pageTitle': pageTitle
-                };
-                _res.render('index', obj);
-            });
-
-        });
+        this.ui.get('/', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('index', WebUI.renderIndex()); });
         this.ui.get('/api/:apiname', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { this.startApi(_req, _res, _next); });
     }
 

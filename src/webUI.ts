@@ -1,4 +1,4 @@
-import * as Http from 'http';
+// import * as Http from 'http';
 
 export class WebUI {
     public static WEB_UI_PORT = '17380'; // いなみ80番ポート
@@ -34,6 +34,15 @@ export class WebUI {
         return WebUI.STATUS_CODE.find((str: string): boolean => str.indexOf(code) >= 0) || '500 Internal Server Error\n';
     }
 
+    public static renderIndex(): object {
+        const obj = {
+            'pageTitle': 'ダッシュボード'
+        };
+
+        return obj;
+    }
+
+    /*
     public static renderIndex(callback: (agents: string, jobnets: string, pageTitle: string, err?: Error) => void): void {
         const title = 'ダッシュボード';
         WebUI.getState((stateJson: string | undefined, err: Error | undefined) => {
@@ -54,7 +63,9 @@ export class WebUI {
             }
         });
     }
+    */
 
+    /*
     private static getState(callback: (stateJson: string | undefined, err: Error | undefined) => void): void {
         const URL = `http://${WebUI.MAHIRU_HOSTNAME}:${WebUI.WEB_UI_PORT}/api/state`;
         Http.get(URL, (res: Http.IncomingMessage) => {
@@ -82,6 +93,5 @@ export class WebUI {
 
         return;
     }
-
-
+    */
 }
