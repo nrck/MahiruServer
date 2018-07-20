@@ -42,56 +42,28 @@ export class WebUI {
         return obj;
     }
 
-    /*
-    public static renderIndex(callback: (agents: string, jobnets: string, pageTitle: string, err?: Error) => void): void {
-        const title = 'ダッシュボード';
-        WebUI.getState((stateJson: string | undefined, err: Error | undefined) => {
-            if (err) {
-                callback('[]', '[]', title, err);
+    public static renderJobnet(): object {
+        const obj = {
+            'pageTitle': 'ジョブネット'
+        };
 
-                return;
-            }
-
-            if (typeof stateJson !== 'undefined') {
-                try {
-                    const a = JSON.stringify(JSON.parse(stateJson).agents);
-                    const j = JSON.stringify(JSON.parse(stateJson).jobnets);
-                    callback(a, j, title);
-                } catch (error) {
-                    callback('[]', '[]', title, error);
-                }
-            }
-        });
+        return obj;
     }
-    */
 
-    /*
-    private static getState(callback: (stateJson: string | undefined, err: Error | undefined) => void): void {
-        const URL = `http://${WebUI.MAHIRU_HOSTNAME}:${WebUI.WEB_UI_PORT}/api/state`;
-        Http.get(URL, (res: Http.IncomingMessage) => {
-            // Status Code 200以外はエラーで返す
-            const statusCode = res.statusCode;
-            // tslint:disable-next-line:no-magic-numbers
-            if (statusCode !== 200) {
-                const error = typeof statusCode !== 'undefined' ? new Error(WebUI.errorCode(statusCode.toString())) : new Error(WebUI.errorCode('500'));
-                callback(undefined, error);
+    public static renderAgent(): object {
+        const obj = {
+            'pageTitle': 'エージェント'
+        };
 
-                return;
-            }
-
-            let tmp = '';
-            res.setEncoding('utf8');
-
-            res.on('data', (data: string) => {
-                tmp += data;
-            });
-
-            res.on('end', () => {
-                callback(tmp, undefined);
-            });
-        });
-
-        return;
+        return obj;
     }
-    */
+
+    public static renderSetting(): object {
+        const obj = {
+            'pageTitle': '設定'
+        };
+
+        return obj;
+    }
+
 }

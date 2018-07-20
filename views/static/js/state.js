@@ -1,17 +1,26 @@
 "use strict";
 
+var URL = "http://localhost:17380/api/";
+var pollingTime = 5000;
+
+function getApi(apiName, callback) {
+    var api = URL + apiName;
+    $.getJSON(api, function (json) {
+        callback(json);
+    });
+}
+
 function getStatus() {
-    var URL = "http://localhost:17380/api/state";
     var agentHTML = "";
     var jobnetHTML = "";
-    $.getJSON(URL, function (json) {
+    getApi('state', function (json) {
         json.agent.forEach(agent => {
             agentHTML += "<div>";
             agentHTML += agent.name + "<br />";
             if (agent.conected) {
-                agentHTML += '<b>接続中</b>';
+                agentHTML += '<div class="alert alert-success" role="alert">接続中</div>';
             } else {
-                agentHTML += '<u>未接続</u><br />';
+                agentHTML += '<div class="alert alert-danger" role="alert">未接続</div>';
             }
             agentHTML += agent.ipaddress;
             agentHTML += '</div>';
@@ -33,4 +42,26 @@ function getStatus() {
         $("#jobnet").html(jobnetHTML);
         $("#agent").html(agentHTML);
     });
+
+    setTimeout(() => {
+        getStatus();
+    }, pollingTime);
+}
+
+function getStatusJobnet() {
+    getApi('allinfo', function () {
+
+    });
+    setTimeout(() => {
+        getStatusJobnet();
+    }, pollingTime);
+}
+
+function getStatusAgent() {
+    getApi('allinfo', function () {
+
+    });
+    setTimeout(() => {
+        getStatusAgent();
+    }, pollingTime);
 }
