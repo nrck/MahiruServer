@@ -41,6 +41,7 @@ class App {
             // tslint:disable-next-line:no-magic-numbers
             _res.status(404);
             _res.send(WebUI.errorCode('404'));
+            _res.end();
 
             return;
         }
@@ -53,6 +54,7 @@ class App {
                     // tslint:disable-next-line:no-magic-numbers
                     _res.status(500);
                     _res.send(WebUI.errorCode('500'));
+                    _res.end();
 
                     return;
                 }

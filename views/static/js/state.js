@@ -13,23 +13,26 @@ function getApi(apiName, callback) {
 function getStatus() {
     var agentHTML = "";
     var jobnetHTML = "";
+    var tableHeader = "<table class=\"table table-hover\"><tbody>";
+    var tableHooter = "</tbody></table>";
     getApi('state', function (json) {
         json.agent.forEach(agent => {
-            agentHTML += "<div>";
-            agentHTML += agent.name + "<br />";
+            agentHTML += "<tr>";
             if (agent.conected) {
-                agentHTML += '<div class="alert alert-success" role="alert">接続中</div>';
+                agentHTML += '<td class="text-left"><span class="alert alert-success">接続中</span></td>';
             } else {
-                agentHTML += '<div class="alert alert-danger" role="alert">未接続</div>';
+                agentHTML += '<td class="text-left"><span class="alert alert-danger">未接続</span></td>';
             }
-            agentHTML += agent.ipaddress;
-            agentHTML += '</div>';
+            agentHTML += "<td>" + agent.name + "</td>";
+            agentHTML += "<td>" + agent.ipaddress + "</td>";
+            agentHTML += '</tr>';
         });
 
         json.jobnet.forEach(jobnet => {
-            jobnetHTML += "<div>";
-            jobnetHTML += "No." + jobnet.serial + " " + jobnet.name + "<br />";
-            jobnetHTML += '</div>';
+            jobnetHTML += "<tr>";
+            jobnetHTML += "<td>" + jobnet.serial + "</td>";
+            jobnetHTML += "<td>" + jobnet.name + "</td>";
+            jobnetHTML += '</tr>';
         });
 
         if (jobnetHTML === "") {
@@ -37,6 +40,8 @@ function getStatus() {
         }
         if (agentHTML === "") {
             agentHTML = "<p>エージェントが定義されていません</p>";
+        } else {
+            agentHTML = tableHeader + agentHTML + tableHooter;
         }
 
         $("#jobnet").html(jobnetHTML);
@@ -49,9 +54,65 @@ function getStatus() {
 }
 
 function getStatusJobnet() {
-    getApi('allinfo', function () {
+    var tableHeader = "<table class=\"table table-hover\"><tbody>";
+    var defJobnetTh = "<tr><th>ジョブネット名</th><th>説明</th><th>開始時刻</th><th>月</th><th>日</th></tr>";
+    var waitJobnetTh = "<tr><th>#</th><th>ジョブネット名</th><th>説明</th><th>開始時刻</th></tr>";
+    var tableHooter = "</tbody></table>";
+    var defJobnetHTML = "";
+    var runJobnetHTML = "";
+    var waitJobnetHTML = "";
+    getApi('allinfo', function (pjson) {
+        var json = pjson.jobnet;
+        json.define.forEach(defJobnet => {
+            defJobnetHTML += "<tr>";
+            defJobnetHTML += "<td>" + defJobnet.name + "</td>";
+            defJobnetHTML += "<td>" + defJobnet.info + "</td>";
+            defJobnetHTML += "<td>" + defJobnet.schedule.start.time + "</td>";
+            defJobnetHTML += "<td><span class=\"bg-primary text-white px-2 rounded\">" + defJobnet.schedule.month.operation + "</span></td>";
+            defJobnetHTML += "<td><span class=\"bg-primary text-white px-2 rounded\">" + defJobnet.schedule.day.operation + "</span></td>";
+            defJobnetHTML += '</tr>';
+        });
 
+        json.running.forEach(runJobnet => {
+            runJobnetHTML += "<tr>";
+            runJobnetHTML += "<td>" + runJobnet.name + "</td>";
+            runJobnetHTML += "<td>" + runJobnet.info + "</td>";
+            runJobnetHTML += "<td>" + runJobnet.schedule.start.time + "</td>";
+            runJobnetHTML += "<td><span class=\"bg-primary text-white px-2 rounded\">" + runJobnet.schedule.month.operation + "</span></td>";
+            runJobnetHTML += "<td><span class=\"bg-primary text-white px-2 rounded\">" + runJobnet.schedule.day.operation + "</span></td>";
+            runJobnetHTML += '</tr>';
+        });
+
+        json.waitting.forEach(waitJobnet => {
+            waitJobnetHTML += "<tr>";
+            waitJobnetHTML += "<td>" + waitJobnet.serial + "</td>";
+            waitJobnetHTML += "<td>" + waitJobnet.name + "</td>";
+            waitJobnetHTML += "<td>" + waitJobnet.info + "</td>";
+            waitJobnetHTML += "<td>" + new Date(waitJobnet.queTime).toLocaleString() + "</td>";
+            waitJobnetHTML += '</tr>';
+        });
+
+        if (defJobnetHTML !== "") {
+            defJobnetHTML = tableHeader + defJobnetTh + defJobnetHTML + tableHooter;
+        } else {
+            defJobnetHTML = "<p>定義がありません</p>";
+        }
+        if (runJobnetHTML !== "") {
+            runJobnetHTML = tableHeader + defJobnetTh + runJobnetHTML + tableHooter;
+        } else {
+            runJobnetHTML = "<p>実行中のジョブネットはありません</p>";
+        }
+        if (waitJobnetHTML !== "") {
+            waitJobnetHTML = tableHeader + waitJobnetTh + waitJobnetHTML + tableHooter;
+        } else {
+            waitJobnetHTML = "<p>開始待ちのジョブネットはありません</p>";
+        }
+
+        $("#defJobnet").html(defJobnetHTML);
+        $("#runJobnet").html(runJobnetHTML);
+        $("#waitJobnet").html(waitJobnetHTML);
     });
+
     setTimeout(() => {
         getStatusJobnet();
     }, pollingTime);

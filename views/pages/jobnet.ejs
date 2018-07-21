@@ -2,12 +2,38 @@
 
 <head>
     <% include ../partials/head %>
+    <script type="text/javascript">
+        window.onload = function () {
+            getStatusJobnet();
+        };
+    </script>
 </head>
 
 <body>
     <header>
         <% include ../partials/header %>
     </header>
+
+    <div class="container-fluid">
+        <h3>実行中</h3>
+        <div id="runJobnet">
+            確認中
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <h3>開始待ち</h3>
+        <div id="waitJobnet">
+            確認中
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <h3>定義</h3>
+        <div id="defJobnet">
+            確認中
+        </div>
+    </div>
 
     <footer>
         <% include ../partials/footer %>
