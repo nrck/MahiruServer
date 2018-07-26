@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import * as SocketIOClient from 'socket.io-client';
 import { Common } from './common';
-import { ApiContextifiedSandbox, CollectInfo } from './interface';
+import { ApiContextifiedSandbox, CollectInfo, JobnetJSON } from './interface';
 
 export class ClientManager {
     private static CLIENT_PROTOCOL = 'ws';
@@ -113,6 +113,7 @@ export class ClientManager {
         this.socket.emit(Common.EVENT_COLLECT_INFO, (data: CollectInfo) => {
             const sandbox: ApiContextifiedSandbox = {
                 'agent': data.agent,
+                'clientManager': this,
                 'define': data.define,
                 'jobnet': data.jobnet,
                 'request': request,
@@ -120,9 +121,20 @@ export class ClientManager {
             };
             callback(sandbox);
         });
-
     }
 
-
+    /**
+     * 新しいジョブネットを追加します。
+     * @param newJobnet 新しいジョブネット
+     * @param callback コールバック
+     */
+    public putJobnet(newJobnet: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+        try {
+            const jobnet = JSON.parse(newJobnet) as JobnetJSON;
+            this.socket.emit(Common.EVENT_SEND_API_DATA, jobnet, callback);
+        } catch (error) {
+            callback(error, undefined);
+        }
+    }
 }
 

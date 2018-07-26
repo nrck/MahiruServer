@@ -76,6 +76,8 @@ export class Common {
     // Event (FEP -> Server)
     /** API向け情報収集 */
     public static EVENT_COLLECT_INFO = 'CollectInfo';
+    /** APIで変更された値の送信イベント */
+    public static EVENT_SEND_API_DATA = 'SendApiData';
 
     // Event (Server)
     /** コネクション切断イベント */
