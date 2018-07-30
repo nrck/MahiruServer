@@ -1,3 +1,5 @@
+import { ClientManager } from './clientManager';
+
 /**
  * ジョブインターフェース
  */
@@ -201,6 +203,8 @@ export interface ApiContextifiedSandbox extends CollectInfo {
     request: Express.Request;
     /** responseオブジェクト */
     response: Express.Response;
+    /** クライアントマネージャ */
+    clientManager: ClientManager;
     /** 各種モジュールです。 */
     module?: {
         /** fsモジュール */

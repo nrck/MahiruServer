@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import * as SocketIOClient from 'socket.io-client';
 import { Common } from './common';
-import { ApiContextifiedSandbox, CollectInfo } from './interface';
+import { ApiContextifiedSandbox, CollectInfo, JobnetJSON } from './interface';
 
 export class ClientManager {
     private static CLIENT_PROTOCOL = 'ws';
@@ -113,6 +113,7 @@ export class ClientManager {
         this.socket.emit(Common.EVENT_COLLECT_INFO, (data: CollectInfo) => {
             const sandbox: ApiContextifiedSandbox = {
                 'agent': data.agent,
+                'clientManager': this,
                 'define': data.define,
                 'jobnet': data.jobnet,
                 'request': request,
@@ -120,9 +121,44 @@ export class ClientManager {
             };
             callback(sandbox);
         });
-
     }
 
+    /**
+     * 新しいジョブネット定義を追加します。
+     * @param newJobnet 新しいジョブネット定義
+     * @param callback コールバック
+     */
+    public putDefineJobnet(newJobnet: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+        try {
+            const jobnet = JSON.parse(newJobnet) as JobnetJSON;
+            this.socket.emit(Common.EVENT_SEND_PUT_DEFINE_JOBNET, jobnet, callback);
+        } catch (error) {
+            callback(error, undefined);
+        }
+    }
 
+    /**
+     * ジョブネット定義を削除します。
+     * @param jobnetName 対象のジョブネットネーム
+     * @param callback コールバック
+     */
+    public removeDefineJobnet(jobnetName: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+        this.socket.emit(Common.EVENT_SEND_REMOVE_DEFINE_JOBNET, jobnetName, callback);
+    }
+
+    /**
+     * ジョブネット定義を更新します。
+     * @param jobnetName 更新対象ジョブネットネーム
+     * @param newJobnet 更新後ジョブネット除法
+     * @param callback コールバック
+     */
+    public updateDefineJobnet(jobnetName: string, newJobnet: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+        try {
+            const jobnet = JSON.parse(newJobnet) as JobnetJSON;
+            this.socket.emit(Common.EVENT_SEND_UPDATE_DEFINE_JOBNET, jobnetName, jobnet, callback);
+        } catch (error) {
+            callback(error, undefined);
+        }
+    }
 }
 
