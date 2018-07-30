@@ -124,14 +124,38 @@ export class ClientManager {
     }
 
     /**
-     * 新しいジョブネットを追加します。
-     * @param newJobnet 新しいジョブネット
+     * 新しいジョブネット定義を追加します。
+     * @param newJobnet 新しいジョブネット定義
      * @param callback コールバック
      */
-    public putJobnet(newJobnet: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+    public putDefineJobnet(newJobnet: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
         try {
             const jobnet = JSON.parse(newJobnet) as JobnetJSON;
-            this.socket.emit(Common.EVENT_SEND_API_DATA, jobnet, callback);
+            this.socket.emit(Common.EVENT_SEND_PUT_DEFINE_JOBNET, jobnet, callback);
+        } catch (error) {
+            callback(error, undefined);
+        }
+    }
+
+    /**
+     * ジョブネット定義を削除します。
+     * @param jobnetName 対象のジョブネットネーム
+     * @param callback コールバック
+     */
+    public removeDefineJobnet(jobnetName: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+        this.socket.emit(Common.EVENT_SEND_REMOVE_DEFINE_JOBNET, jobnetName, callback);
+    }
+
+    /**
+     * ジョブネット定義を更新します。
+     * @param jobnetName 更新対象ジョブネットネーム
+     * @param newJobnet 更新後ジョブネット除法
+     * @param callback コールバック
+     */
+    public updateDefineJobnet(jobnetName: string, newJobnet: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+        try {
+            const jobnet = JSON.parse(newJobnet) as JobnetJSON;
+            this.socket.emit(Common.EVENT_SEND_UPDATE_DEFINE_JOBNET, jobnetName, jobnet, callback);
         } catch (error) {
             callback(error, undefined);
         }
