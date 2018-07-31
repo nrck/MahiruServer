@@ -220,5 +220,14 @@ export class ClientManager {
     public passWaitingJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
         this.passRunningJobnet(serial, jobcode, callback);
     }
+
+    /**
+     * 実行済み再実行（実行時の定義で）する。
+     * @param serial 対象のジョブネットシリアル番号
+     * @param callback コールバック
+     */
+    public rerunFinishJobnet(serial: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+        this.socket.emit(Common.EVENT_SEND_RERUN_FINISH_JOBNET, serial, callback);
+    }
 }
 
