@@ -181,6 +181,14 @@ export class ClientManager {
         this.socket.emit(Common.EVENT_SEND_STOP_RUNNIG_JOBNET, serial, jobcode, callback);
     }
 
-    
+    /**
+     * 実行中ジョブネットの対象ジョブを通過させます。
+     * @param serial 実行中ジョブネットのシリアル番号
+     * @param jobcode ジョブコード
+     * @param callback コールバック
+     */
+    public passRunningJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+        this.socket.emit(Common.EVENT_SEND_PASS_RUNNIG_JOBNET, serial, jobcode, callback);
+    }
 }
 
