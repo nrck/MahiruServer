@@ -18,7 +18,7 @@ function getStatus() {
     getApi('state', function (json) {
         json.agent.forEach(agent => {
             agentHTML += "<tr>";
-            if (agent.conected) {
+            if (agent.connected) {
                 agentHTML += '<td class="text-left"><span class="alert alert-success">接続中</span></td>';
             } else {
                 agentHTML += '<td class="text-left"><span class="alert alert-danger">未接続</span></td>';
