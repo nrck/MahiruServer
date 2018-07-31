@@ -20,6 +20,7 @@
             } else {
                 jobnet.define.push(newJobnet);
                 response.status(200);
+                response.header("Content-Type", "application/json; charset=utf-8");
                 response.end(JSON.stringify(newJobnet, undefined, '  '));
             }
 
@@ -27,6 +28,7 @@
 
         default:
             response.status(200);
+            response.header("Content-Type", "application/json; charset=utf-8");
             response.end(JSON.stringify(jobnet, undefined, '  '));
 
             return;
