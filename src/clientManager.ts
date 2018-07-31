@@ -162,13 +162,23 @@ export class ClientManager {
     }
 
     /**
-     * 実行中ジョブネットの対象ジョブ一時停止
-     * @param serial 実行中ジョブネット
+     * 実行中ジョブネットの対象ジョブ一時停止を行います。
+     * @param serial 実行中ジョブネットシリアル番号
      * @param jobcode ジョブコード
      * @param callback コールバック
      */
     public pauseRunningJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
         this.socket.emit(Common.EVENT_SEND_PAUSE_RUNNIG_JOBNET, serial, jobcode, callback);
+    }
+
+    /**
+     * 実行中ジョブネット中断します。
+     * @param serial 実行中ジョブネットシリアル番号
+     * @param jobcode ジョブコード
+     * @param callback コールバック
+     */
+    public stopRunningJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+        this.socket.emit(Common.EVENT_SEND_STOP_RUNNIG_JOBNET, serial, jobcode, callback);
     }
 
     
