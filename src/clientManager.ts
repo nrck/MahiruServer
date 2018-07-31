@@ -190,5 +190,35 @@ export class ClientManager {
     public passRunningJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
         this.socket.emit(Common.EVENT_SEND_PASS_RUNNIG_JOBNET, serial, jobcode, callback);
     }
+
+    /**
+     * 待ちジョブネットの対象ジョブ一時停止を行います。
+     * @param serial 待ちジョブネットシリアル番号
+     * @param jobcode ジョブコード
+     * @param callback コールバック
+     */
+    public pauseWaitingJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+        this.pauseRunningJobnet(serial, jobcode, callback);
+    }
+
+    /**
+     * 待ちジョブネット中断します。
+     * @param serial 待ちジョブネットシリアル番号
+     * @param jobcode ジョブコード
+     * @param callback コールバック
+     */
+    public stopWaitingJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+        this.stopRunningJobnet(serial, jobcode, callback);
+    }
+
+    /**
+     * 待ちジョブネットの対象ジョブを通過させます。
+     * @param serial 待ちジョブネットのシリアル番号
+     * @param jobcode ジョブコード
+     * @param callback コールバック
+     */
+    public passWaitingJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+        this.passRunningJobnet(serial, jobcode, callback);
+    }
 }
 
