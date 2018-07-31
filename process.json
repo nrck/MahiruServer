@@ -1,6 +1,6 @@
 {
     "name": "mahiru",
-    "script": "mahiruFrontend.js",
+    "script": "./out/app.js",
     "node_args" : "",
     "error_file": "mahiru-stderr.log",
     "out_file": "mahiru-stdout.log",
