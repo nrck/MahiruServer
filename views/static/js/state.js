@@ -61,8 +61,8 @@ function getStatusJobnet() {
     var defJobnetHTML = "";
     var runJobnetHTML = "";
     var waitJobnetHTML = "";
-    getApi('allinfo', function (pjson) {
-        var json = pjson.jobnet;
+    getApi('jobnet?sort=quetime', function (json) {
+        //var json = pjson.jobnet;
         json.define.forEach(defJobnet => {
             defJobnetHTML += "<tr>";
             defJobnetHTML += "<td>" + defJobnet.name + "</td>";

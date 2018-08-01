@@ -36,7 +36,7 @@ class App {
     }
 
     public startApi(_req: Express.Request, _res: Express.Response, _next: Express.NextFunction): void {
-        const apipath = `${_req.url.replace('/api/', '')}.api.js`;
+        const apipath = `${_req.path.replace('/api/', '')}.api.js`;
         if (this.api.isExistScript(apipath) === false) {
             // tslint:disable-next-line:no-magic-numbers
             _res.status(404);

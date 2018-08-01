@@ -1,3 +1,4 @@
+'use strict';
 (function () {
     switch (request.method) {
         case 'POST':
@@ -27,6 +28,11 @@
             return;
 
         default:
+            if (request.query.sort === 'quetime') {
+                jobnet.waitting.sort(
+                    (a, b) => new Date(a.queTime).getTime() - new Date(b.queTime).getTime()
+                );
+            }
             response.status(200);
             response.header("Content-Type", "application/json; charset=utf-8");
             response.end(JSON.stringify(jobnet, undefined, '  '));
