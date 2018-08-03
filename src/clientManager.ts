@@ -229,5 +229,9 @@ export class ClientManager {
     public rerunFinishJobnet(serial: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
         this.socket.emit(Common.EVENT_SEND_RERUN_FINISH_JOBNET, serial, callback);
     }
+
+    public scheduleReload(): void {
+        this.socket.emit(Common.EVENT_SEND_SCHEDULE_RELOAD);
+    }
 }
 
