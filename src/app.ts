@@ -14,10 +14,8 @@ class App {
 
     // 初期化処理
     public init(): void {
-        // this.ui.set('views', `${__dirname}/../views/pages/`); // WinとUNIXで処理を変えたいね
         this.ui.set('views', './views/pages/');
         this.ui.set('view engine', 'ejs');
-        // this.ui.use(Express.static(`${__dirname}/views/static`));
         this.ui.use(Express.static('./views/static'));
 
         this.cm.open();
@@ -32,6 +30,8 @@ class App {
         this.ui.get('/agent', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('setting', WebUI.renderAgent()); });
         this.ui.get('/jobnet', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('jobnet', WebUI.renderJobnet()); });
         this.ui.get('/setting', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('setting', WebUI.renderSetting()); });
+        this.ui.get('/edit/jobnet', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('editJobnet', WebUI.renderEditJobnet()); });
+        this.ui.get('/edit/agent', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('editAgent', WebUI.renderEditAgent()); });
         this.ui.get('/', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('index', WebUI.renderIndex()); });
     }
 

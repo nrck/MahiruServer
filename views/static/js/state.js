@@ -83,14 +83,15 @@ function getStatusJobnet() {
             runJobnetHTML += '</tr>';
         });
 
-        json.waitting.forEach(waitJobnet => {
+        for (let i = 0; i < (10 < json.waitting.length ? 10 : json.waitting.length); i++) {
+            const waitJobnet = json.waitting[i];
             waitJobnetHTML += "<tr>";
             waitJobnetHTML += "<td>" + waitJobnet.serial + "</td>";
             waitJobnetHTML += "<td>" + waitJobnet.name + "</td>";
             waitJobnetHTML += "<td>" + waitJobnet.info + "</td>";
             waitJobnetHTML += "<td>" + new Date(waitJobnet.queTime).toLocaleString() + "</td>";
             waitJobnetHTML += '</tr>';
-        });
+        }
 
         if (defJobnetHTML !== "") {
             defJobnetHTML = tableHeader + defJobnetTh + defJobnetHTML + tableHooter;
