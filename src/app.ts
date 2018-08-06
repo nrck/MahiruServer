@@ -53,7 +53,7 @@ class App {
                 if (typeof error !== 'undefined') {
                     // tslint:disable-next-line:no-magic-numbers
                     _res.status(500);
-                    _res.send(WebUI.errorCode('500'));
+                    _res.send(`<b>${WebUI.errorCode('500')}</b><pre>${error.stack}</pre>`);
                     _res.end();
 
                     return;
