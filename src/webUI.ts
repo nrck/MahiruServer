@@ -50,6 +50,22 @@ export class WebUI {
         return obj;
     }
 
+    public static renderEditJobnet(): object {
+        const obj = {
+            'pageTitle': 'ジョブネット編集'
+        };
+
+        return obj;
+    }
+
+    public static renderEditAgent(): object {
+        const obj = {
+            'pageTitle': 'エージェント編集'
+        };
+
+        return obj;
+    }
+
     public static renderAgent(): object {
         const obj = {
             'pageTitle': 'エージェント'

@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import * as SocketIOClient from 'socket.io-client';
 import { Common } from './common';
-import { ApiContextifiedSandbox, CollectInfo, JobnetJSON } from './interface';
+import { ApiContextifiedSandbox, CollectInfo, Jobnet, JobnetJSON } from './interface';
 
 export class ClientManager {
     private static CLIENT_PROTOCOL = 'ws';
@@ -167,7 +167,7 @@ export class ClientManager {
      * @param jobcode ジョブコード
      * @param callback コールバック
      */
-    public pauseRunningJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+    public pauseRunningJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: Jobnet | undefined) => void): void {
         this.socket.emit(Common.EVENT_SEND_PAUSE_RUNNIG_JOBNET, serial, jobcode, callback);
     }
 
@@ -177,7 +177,7 @@ export class ClientManager {
      * @param jobcode ジョブコード
      * @param callback コールバック
      */
-    public stopRunningJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+    public stopRunningJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: Jobnet | undefined) => void): void {
         this.socket.emit(Common.EVENT_SEND_STOP_RUNNIG_JOBNET, serial, jobcode, callback);
     }
 
@@ -187,7 +187,7 @@ export class ClientManager {
      * @param jobcode ジョブコード
      * @param callback コールバック
      */
-    public passRunningJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+    public passRunningJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: Jobnet | undefined) => void): void {
         this.socket.emit(Common.EVENT_SEND_PASS_RUNNIG_JOBNET, serial, jobcode, callback);
     }
 
@@ -197,7 +197,7 @@ export class ClientManager {
      * @param jobcode ジョブコード
      * @param callback コールバック
      */
-    public pauseWaitingJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+    public pauseWaitingJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: Jobnet | undefined) => void): void {
         this.pauseRunningJobnet(serial, jobcode, callback);
     }
 
@@ -207,7 +207,7 @@ export class ClientManager {
      * @param jobcode ジョブコード
      * @param callback コールバック
      */
-    public stopWaitingJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+    public stopWaitingJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: Jobnet | undefined) => void): void {
         this.stopRunningJobnet(serial, jobcode, callback);
     }
 
@@ -217,7 +217,7 @@ export class ClientManager {
      * @param jobcode ジョブコード
      * @param callback コールバック
      */
-    public passWaitingJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+    public passWaitingJobnet(serial: string, jobcode: string, callback: (err: Error | undefined, data: Jobnet | undefined) => void): void {
         this.passRunningJobnet(serial, jobcode, callback);
     }
 
@@ -226,8 +226,12 @@ export class ClientManager {
      * @param serial 対象のジョブネットシリアル番号
      * @param callback コールバック
      */
-    public rerunFinishJobnet(serial: string, callback: (err: Error | undefined, data: JobnetJSON[] | undefined) => void): void {
+    public rerunFinishJobnet(serial: string, callback: (err: Error | undefined, data: Jobnet | undefined) => void): void {
         this.socket.emit(Common.EVENT_SEND_RERUN_FINISH_JOBNET, serial, callback);
+    }
+
+    public scheduleReload(): void {
+        this.socket.emit(Common.EVENT_SEND_SCHEDULE_RELOAD);
     }
 }
 
