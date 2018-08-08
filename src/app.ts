@@ -1,6 +1,7 @@
 import * as Express from 'express';
 import { Api } from './api';
 import { ClientManager } from './clientManager';
+import { Common } from './common';
 import { ApiContextifiedSandbox } from './interface';
 import { WebUI } from './webUI';
 
@@ -26,13 +27,13 @@ class App {
     }
 
     public setRouter(): void {
-        this.ui.get('/api/:apiname', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { this.startApi(_req, _res, _next); });
-        this.ui.get('/agent', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('setting', WebUI.renderAgent()); });
-        this.ui.get('/jobnet', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('jobnet', WebUI.renderJobnet()); });
-        this.ui.get('/setting', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('setting', WebUI.renderSetting()); });
-        this.ui.get('/edit/jobnet', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('editJobnet', WebUI.renderEditJobnet()); });
-        this.ui.get('/edit/agent', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('editAgent', WebUI.renderEditAgent()); });
-        this.ui.get('/', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('index', WebUI.renderIndex()); });
+        this.ui.all('/api/:apiname', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { this.startApi(_req, _res, _next); });
+        this.ui.all('/agent', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('setting', WebUI.renderAgent()); });
+        this.ui.all('/jobnet', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('jobnet', WebUI.renderJobnet()); });
+        this.ui.all('/setting', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('setting', WebUI.renderSetting()); });
+        this.ui.all('/edit/jobnet', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('editJobnet', WebUI.renderEditJobnet()); });
+        this.ui.all('/edit/agent', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('editAgent', WebUI.renderEditAgent()); });
+        this.ui.all('/', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('index', WebUI.renderIndex()); });
     }
 
     public startApi(_req: Express.Request, _res: Express.Response, _next: Express.NextFunction): void {
@@ -48,7 +49,7 @@ class App {
 
         this.cm.getCollectInfo(_req, _res, (sandbox: ApiContextifiedSandbox): void => {
             this.api.sandbox = sandbox;
-
+            Common.trace(Common.STATE_DEBUG, JSON.stringify(_req.query));
             this.api.runApi(apipath, (error?: Error, _sandbox?: ApiContextifiedSandbox) => {
                 if (typeof error !== 'undefined') {
                     // tslint:disable-next-line:no-magic-numbers
