@@ -1,7 +1,7 @@
+import * as bodyParser from 'body-parser';
 import * as Express from 'express';
 import { Api } from './api';
 import { ClientManager } from './clientManager';
-import { Common } from './common';
 import { ApiContextifiedSandbox } from './interface';
 import { WebUI } from './webUI';
 
@@ -17,6 +17,8 @@ class App {
     public init(): void {
         this.ui.set('views', './views/pages/');
         this.ui.set('view engine', 'ejs');
+        this.ui.use(bodyParser.json());
+        this.ui.use(bodyParser.urlencoded({ 'extended': true }));
         this.ui.use(Express.static('./views/static'));
 
         this.cm.open();
@@ -49,7 +51,6 @@ class App {
 
         this.cm.getCollectInfo(_req, _res, (sandbox: ApiContextifiedSandbox): void => {
             this.api.sandbox = sandbox;
-            Common.trace(Common.STATE_DEBUG, JSON.stringify(_req.query));
             this.api.runApi(apipath, (error?: Error, _sandbox?: ApiContextifiedSandbox) => {
                 if (typeof error !== 'undefined') {
                     // tslint:disable-next-line:no-magic-numbers

@@ -1,24 +1,25 @@
 'use strict';
 (function () {
     const cmCallback = function (err, data) {
-        if (err !== undefined || data === undefined) {
+        if (err) {
             response.status(500);
+            response.send(`<b>${err.message}</b><br><pre>${err.stack}</pre>`);
             response.end();
             return;
         }
         response.status(200);
         response.header("Content-Type", "application/json; charset=utf-8");
-        response.end(JSON.stringify(newJobnet, undefined, '  '));
+        response.end(JSON.stringify(data, undefined, '  '));
         return;
     };
 
-    const jobnetName = request.query.jobnetName || undefined;
-    const newJobnet = request.query.jobnet;
+    const jobnetName = request.body.jobnetName || undefined;
+    const newJobnet = JSON.stringify(request.body.jobnet, undefined, '  ');
 
     switch (request.method) {
         case 'POST':
             // 新規作成・更新
-            if (jobnetName === undefined) {
+            if (typeof jobnetName === 'undefined') {
                 clientManager.putDefineJobnet(newJobnet, cmCallback);
             } else {
                 clientManager.updateDefineJobnet(jobnetName, newJobnet, cmCallback);
