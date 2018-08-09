@@ -24,7 +24,6 @@ class App {
         this.cm.open();
 
         this.setRouter();
-        // this.ui.use(this.ui.router);
         this.ui.listen(WebUI.WEB_UI_PORT);
     }
 
