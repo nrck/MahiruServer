@@ -1,6 +1,6 @@
 {
   "name": "working-mahiru",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Mahiru Frontend is very cute jobnet control system.",
   "main": "app.js",
   "author": {
