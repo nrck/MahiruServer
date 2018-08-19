@@ -1,8 +1,6 @@
 // import * as Http from 'http';
 
 export class WebUI {
-    public static WEB_UI_PORT = '17380'; // いなみ80番ポート
-    public static MAHIRU_HOSTNAME = 'localhost';
     public static STATUS_CODE: string[] = [
         '400 Bad Request\n',
         '401 Unauthorized\n',

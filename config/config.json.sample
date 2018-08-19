@@ -1,0 +1,14 @@
+{
+    "agentName": "Mahiru",
+    "ip": "localhost",
+    "sharekey": "password",
+    "poplarServer": {
+        "ip": "172.0.0.1",
+        "port": "27131"
+    },
+    "mahiruServer": {
+        "port": "17380"
+    },
+    "apiPath": "/api/",
+    "namespace": "/fep"
+}
