@@ -48,6 +48,15 @@ class App {
             return;
         }
 
+        if (this.cm.connected === false) {
+            // tslint:disable-next-line:no-magic-numbers
+            _res.status(503);
+            _res.send(WebUI.errorCode('503'));
+            _res.end();
+
+            return;
+        }
+
         this.cm.getCollectInfo(_req, _res, (sandbox: ApiContextifiedSandbox): void => {
             this.api.sandbox = sandbox;
             this.api.runApi(apipath, (error?: Error, _sandbox?: ApiContextifiedSandbox) => {
