@@ -120,9 +120,29 @@ function getStatusJobnet() {
 }
 
 function getStatusAgent() {
-    getApi('allinfo', function () {
+    var tableHeader = "<table class=\"table table-hover\"><tbody>";
+    var stateAgentTh = "<tr><th>エージェント名</th><th>IPアドレス</th><th>状態</th></tr>";
+    var tableHooter = "</tbody></table>";
+    var stateAgentHTML = "";
+    getApi('allinfo', function (pjson) {
+        var json = pjson.agent;
+        json.state.forEach(stateAgent => {
+            stateAgentHTML += "<tr>";
+            stateAgentHTML += "<td>" + stateAgent.name + "</td>";
+            stateAgentHTML += "<td>" + stateAgent.ipaddress + "</td>";
+            stateAgentHTML += "<td>" + (stateAgent.connected ? "接続中" : "未接続") + "</td>";
+            stateAgentHTML += '</tr>';
+        });
 
+        if (stateAgentHTML !== "") {
+            stateAgentHTML = tableHeader + stateAgentTh + stateAgentHTML + tableHooter;
+        } else {
+            stateAgentHTML = "<p>定義がありません</p>";
+        }
+
+        $("#stateAgent").html(stateAgentHTML);
     });
+
     setTimeout(() => {
         getStatusAgent();
     }, pollingTime);

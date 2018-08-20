@@ -1,0 +1,29 @@
+<html lang="ja">
+
+<head>
+    <% include ../partials/head %>
+    <script type="text/javascript">
+        window.onload = function () {
+            getStatusAgent();
+        };
+    </script>
+</head>
+
+<body>
+    <header>
+        <% include ../partials/header %>
+    </header>
+
+    <div class="container-fluid">
+        <h3>エージェント一覧</h3>
+        <div id="stateAgent">
+            確認中
+        </div>
+    </div>
+
+    <footer>
+        <% include ../partials/footer %>
+    </footer>
+</body>
+
+</html>

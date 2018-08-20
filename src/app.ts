@@ -19,7 +19,7 @@ class App {
     private static WEB_UI_PORT = App.CONFIG.mahiruServer.port || '17380'; // いなみ80番ポート
 
     private ui = Express();
-    private api = new Api(`.${App.CONFIG.apipath}`);
+    private api = new Api(`.${App.CONFIG.apiPath}`);
     private cm = new ClientManager(App.SERVER_HOST, App.SERVER_PORT, App.CONFIG.namespace);
 
     // 初期化処理
@@ -39,7 +39,7 @@ class App {
     // ルーティング設定
     public setRouter(): void {
         this.ui.all('/api/:apiname', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { this.startApi(_req, _res, _next); });
-        this.ui.all('/agent', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('setting', WebUI.renderAgent()); });
+        this.ui.all('/agent', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('agent', WebUI.renderAgent()); });
         this.ui.all('/jobnet', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('jobnet', WebUI.renderJobnet()); });
         this.ui.all('/setting', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('setting', WebUI.renderSetting()); });
         this.ui.all('/edit/jobnet', (_req: Express.Request, _res: Express.Response, _next: Express.NextFunction) => { _res.render('editJobnet', WebUI.renderEditJobnet()); });
