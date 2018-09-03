@@ -37,6 +37,13 @@
                     (a, b) => new Date(a.queTime).getTime() - new Date(b.queTime).getTime()
                 );
             }
+            if (typeof request.query.name !== 'undefined' ) {
+                var name = request.query.name;
+                jobnet = jobnet.define.find((definejobnet) => definejobnet.name === name);
+                if(typeof jobnet === 'undefined') {
+                    jobnet = {};
+                }
+            }
             response.status(200);
             response.header("Content-Type", "application/json; charset=utf-8");
             response.end(JSON.stringify(jobnet, undefined, '  '));
