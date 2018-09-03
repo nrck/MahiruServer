@@ -1,51 +1,61 @@
 'use strict';
 
-var getNodes = function(jobnetName) {
-    
+var getNodes = function (jobnetName, callback) {
+    var nodesDataSet = [];
+    var edgesDataSet = [];
+    getApi(`jobnet?name=${jobnetName}`, function (json) {
+        if (json === '{}') {
+            callback({
+                nodes: new vis.DataSet(nodesDataSet),
+                edges: new vis.DataSet(edgesDataSet)
+            });
+
+            return;
+        }
+
+        for (var from = 0; from < json.nextMatrix.length; from++) {
+            nodesDataSet.push({
+                id: from,
+                label: json.jobs[from].code,
+                shape: 'dot',
+                size: 12
+            });
+            for (var to = 0; to < json.nextMatrix[from].length; to++) {
+                if (json.nextMatrix[from][to] === 1) {
+                    edgesDataSet.push({
+                        from: from,
+                        to: to
+                    });
+                }
+            }
+        }
+
+        callback({
+            nodes: new vis.DataSet(nodesDataSet),
+            edges: new vis.DataSet(edgesDataSet)
+        });
+    });
 };
 
-var VisManager = {}
+var network = function (container, data, options) {
+    return new vis.Network(container, data, options);
+}
 
-
-
-
-// create an array with nodes
-    var nodes = new vis.DataSet([
-        {id: 1, label: 'Node 1', shape: 'dot', size: 12},
-        {id: 2, label: 'Node 2', shape: 'dot', size: 12},
-        {id: 3, label: 'Node 3', shape: 'dot', size: 12},
-        {id: 4, label: 'Node 4', shape: 'dot', size: 12},
-        {id: 5, label: 'Node 5', shape: 'dot', size: 12}
-    ]);
-
-    // create an array with edges
-    var edges = new vis.DataSet([
-        {from: 1, to: 3},
-        {from: 1, to: 2},
-        {from: 2, to: 4},
-        {from: 3, to: 4},
-        {from: 4, to: 5}
-    ]);
-
-    // create a network
-    var container = document.getElementById('mynetwork');
-
-    // provide the data in the vis format
-    var data = {
-        nodes: nodes,
-        edges: edges
-    };
-    var options = {
-        layout: {
-            hierarchical: {
-              direction: 'UD',        // UD, DU, LR, RL
-              sortMethod: 'directed'   // hubsize, directed
-            }
-        },
-        edges:{
-            arrows: 'to'
+var options = {
+    layout: {
+        hierarchical: {
+            direction: 'UD', // UD, DU, LR, RL
+            sortMethod: 'directed' // hubsize, directed
         }
-    };
+    },
+    edges: {
+        arrows: 'to'
+    }
+};
 
-    // initialize your network!
-    var network = new vis.Network(container, data, options);
+var VisManager = {
+    container: document.getElementById('jobnetwork'),
+    getNodes: getNodes,
+    network: network,
+    options: options
+}
