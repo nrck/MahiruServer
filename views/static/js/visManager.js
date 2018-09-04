@@ -1,6 +1,6 @@
 'use strict';
 
-var getNodes = function (jobnetName, callback) {
+function getNodes (jobnetName, callback) {
     var nodesDataSet = [];
     var edgesDataSet = [];
     getApi(`jobnet?name=${jobnetName}`, function (json) {
@@ -37,14 +37,14 @@ var getNodes = function (jobnetName, callback) {
     });
 };
 
-var network = function (container, data, options) {
+function getNetwork (container, data, options) {
     return new vis.Network(container, data, options);
 }
 
 var options = {
     layout: {
         hierarchical: {
-            direction: 'UD', // UD, DU, LR, RL
+            direction: 'LR', // UD, DU, LR, RL
             sortMethod: 'directed' // hubsize, directed
         }
     },
@@ -52,10 +52,3 @@ var options = {
         arrows: 'to'
     }
 };
-
-var VisManager = {
-    container: document.getElementById('jobnetwork'),
-    getNodes: getNodes,
-    network: network,
-    options: options
-}

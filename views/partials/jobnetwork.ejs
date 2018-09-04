@@ -1,21 +1,20 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
-<script type="text/javascript" src="./js/visManager.js"></script>
+<script type="text/javascript" src="/js/visManager.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" rel="stylesheet" type="text/css" />
 
 <style type="text/css">
-    #mynetwork {
+    #jobnetwork {
         width: 600px;
-        height: 400px;
+        height: 300px;
         border: 1px solid lightgray;
     }
 </style>
 
-<div id="mynetwork"></div>
+<div id="jobnetwork"></div>
 
 <script type="text/javascript">
     var jobnetname = 'はじめてのジョブ実行1';
-    var VisManager = new VisManager();
-    VisManager.getNodes(jobnetname, function(data) {
-        VisManager.network(VisManager.container, data, VisManager.options);
+    getNodes(jobnetname, function(data) {
+        getNetwork(document.getElementById('jobnetwork'), data, options);
     });
 </script>
