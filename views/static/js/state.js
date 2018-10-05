@@ -1,6 +1,6 @@
 "use strict";
 
-var URL = "http://localhost:17380/api/";
+var URL = "/api/";
 var pollingTime = 5000;
 
 function getApi(apiName, callback) {
