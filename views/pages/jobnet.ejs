@@ -7,6 +7,7 @@
             getStatusJobnet();
         };
     </script>
+    <script src="/js/createJobnet.js"></script>
 </head>
 
 <body>
@@ -52,14 +53,17 @@
             </div>
             <div id="tab4" class="p-4 tab-pane">
                 <h3>ジョブネットを追加する</h3>
-                <form class="form-inline">
+                <!-- <form class="form-inline"> -->
                     <div class="form-group p-1">
-                        <input type="text" class="form-control" placeholder="新しいジョブネット名を入力します" name="newJobnetName">
+                        <input type="text" class="form-control" placeholder="新しいジョブネット名を入力します" id="newJobnetName">
                     </div>     
                     <div class="form-group p-1">
-                        <button type="submit" class="btn btn-primary">作成</button>
+                        <button class="btn btn-primary" onclick="createNewJobnet($('#newJobnetName').val());">作成</button>
+                    </div>     
+                    <div class="form-group p-1" id="error">
+                        
                     </div>
-                </form>
+                <!-- </form> -->
             </div>
         </div>
     </div>
