@@ -9,43 +9,77 @@
         <% include ../partials/header %>
     </header>
 
-    <div class="container-fluid">
-        <form>
-            <div class="form-group">
-                <label for="jobnetName">ジョブネット名</label>
-                <input type="text" class="form-control" id="jobnetName" aria-describedby="jobnetNameHelp" placeholder="ジョブネット名">
-                <small id="jobnetNameHelp" class="form-text text-muted">ジョブネット名を設定します。</small>
+    <div class="p-3">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a href="#tab1" class="nav-link active" data-toggle="tab">プロパティ</a>
+            </li>
+            <li class="nav-item">
+                <a href="#tab2" class="nav-link" data-toggle="tab">スケジュール</a>
+            </li>
+            <li class="nav-item">
+                <a href="#tab3" class="nav-link" data-toggle="tab">フロー</a>
+            </li>
+            <li class="nav-item">
+                <a href="#tab4" class="nav-link" data-toggle="tab">リカバリーフロー</a>
+            </li>
+        </ul>
+
+        <form class="">
+            <div class="tab-content">
+                <div id="tab1" class="p-4 tab-pane active">
+                
+                    <div class="form-group row">
+                        <div class="col-sm-2 d-flex align-items-center justify-content-end ">
+                            <label class="form-control-label" for="jobnetName">名前</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <input class="form-control" type="text" id="jobnetName" aria-describedby="jobnetNameHelp" placeholder="ジョブネット名">
+                            <small id="jobnetNameHelp" class="form-text text-muted">ジョブネットの名前を設定します。</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-2 d-flex align-items-center justify-content-end ">
+                            <label class="form-control-label" for="isEnable">有効</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-outline-primary active">
+                                    <input type="radio" name="isEnable" id="isEnableTrue" autocomplete="off" checked>有効
+                                </label>
+                                <label class="btn btn-outline-danger">
+                                    <input type="radio" name="isEnable" id="isEnableFalse" autocomplete="off">無効
+                                </label>
+                            </div>
+                            <small id="isEnableHelp" class="form-text text-muted">スケジューリングの対象にするかを設定します。有効にすると自動でスケジュールされます。</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-2 d-flex align-items-center justify-content-end ">
+                            <label class="form-control-label" for="jobnetInfo">説明</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <input class="form-control" type="text" id="jobnetInfo" aria-describedby="jobnetInfoHelp" placeholder="ジョブネットの説明">
+                            <small id="jobnetInfoHelp" class="form-text text-muted">ジョブネットの説明を設定します。</small>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab2" class="p-4 tab-pane">
+                    aaaaa
+                
+                </div>
+                <div id="tab3" class="p-4 tab-pane">
+                    <% include ../partials/jobnetwork %>
+                </div>
+                <div id="tab4" class="p-4 tab-pane">
+                    <% include ../partials/jobnetwork %>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="jobnetInfo">ジョブネット説明</label>
-                <input type="text" class="form-control" id="jobnetInfo" aria-describedby="jobnetInfoHelp" placeholder="ジョブネット説明">
-                <small id="jobnetInfoHelp" class="form-text text-muted">ジョブネットの説明文を設定します。</small>
-            </div>
-            <div class="form-group">
-                <label for="jobnetInfo">スケジュール設定</label>
-                <input type="text" class="form-control" id="jobnetInfo" aria-describedby="jobnetInfoHelp" placeholder="スケジュール設定">
-                <small id="jobnetInfoHelp" class="form-text text-muted">ジョブネットの説明文を設定します。</small>
-            </div>
-            <div class="form-group">
-                <label for="jobnetInfo">ジョブネット説明</label>
-                <input type="text" class="form-control" id="jobnetInfo" aria-describedby="jobnetInfoHelp" placeholder="text">
-                <small id="jobnetInfoHelp" class="form-text text-muted">ジョブネットの説明文を設定します。</small>
-            </div>
-            <div class="form-group">
-                <label for="jobnetInfo">ジョブネット説明</label>
-                <input type="text" class="form-control" id="jobnetInfo" aria-describedby="jobnetInfoHelp" placeholder="text">
-                <small id="jobnetInfoHelp" class="form-text text-muted">ジョブネットの説明文を設定します。</small>
-            </div>
-            <div class="form-group">
-                <label for="jobnetInfo">ジョブネット説明</label>
-                <input type="text" class="form-control" id="jobnetInfo" aria-describedby="jobnetInfoHelp" placeholder="text">
-                <small id="jobnetInfoHelp" class="form-text text-muted">ジョブネットの説明文を設定します。</small>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
 
-    <% include ../partials/jobnetwork %>
 
     <footer>
         <% include ../partials/footer %>
