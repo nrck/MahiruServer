@@ -28,7 +28,7 @@
         <form class="">
             <div class="tab-content">
                 <div id="tab1" class="p-4 tab-pane active">
-                
+                    <h3>プロパティ</h3>
                     <div class="form-group row">
                         <div class="col-sm-2 d-flex align-items-center justify-content-end ">
                             <label class="form-control-label" for="jobnetName">名前</label>
@@ -66,14 +66,178 @@
                         </div>
                     </div>
                 </div>
+
                 <div id="tab2" class="p-4 tab-pane">
-                    aaaaa
-                
+                    <h3>スケジュール</h3>
+
+                    <div class="form-group row border-bottom p-2">
+                        <div class="col-sm-2 d-flex align-items-center justify-content-end ">
+                            <label class="form-control-label" for="runMonth">実行月</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="p-1 btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-outline-primary active">
+                                    <input type="radio" name="runMonth" id="everyMonth" autocomplete="off" checked>毎月
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="radio" name="runMonth" id="deMonth" autocomplete="off">指定月
+                                </label>
+                            </div>
+
+                            <div class="p-1 btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-outline-primary">
+                                    <input type="checkbox" name="runMonth" autocomplete="off" checked>1月
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="checkbox" name="runMonth" autocomplete="off" checked>2月
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="checkbox" name="runMonth" autocomplete="off" checked>3月
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="checkbox" name="runMonth" autocomplete="off" checked>4月
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="checkbox" name="runMonth" autocomplete="off" checked>5月
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="checkbox" name="runMonth" autocomplete="off" checked>6月
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="checkbox" name="runMonth" autocomplete="off" checked>7月
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="checkbox" name="runMonth" autocomplete="off" checked>8月
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="checkbox" name="runMonth" autocomplete="off" checked>9月
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="checkbox" name="runMonth" autocomplete="off" checked>10月
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="checkbox" name="runMonth" autocomplete="off" checked>11月
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="checkbox" name="runMonth" autocomplete="off" checked>12月
+                                </label>
+                            </div>
+                            <small id="runMonthHelp" class="form-text text-muted">実行月を指定します。選択した月であれば実行されます。</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row border-bottom p-2">
+                        <div class="col-sm-2 d-flex align-items-center justify-content-end ">
+                            <label class="form-control-label" for="runDays">実行日</label>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-outline-primary active">
+                                    <input type="radio" name="runDays" id="isEnableTrue" autocomplete="off" checked>毎日
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="radio" name="runDays" id="isEnableFalse" autocomplete="off">休日
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="radio" name="runDays" id="isEnableFalse" autocomplete="off">指定曜日
+                                </label>
+                                <label class="btn btn-outline-primary">
+                                    <input type="radio" name="runDays" id="isEnableFalse" autocomplete="off">指定日
+                                </label>
+                            </div>
+                            <small id="runDaysHelp" class="form-text text-muted">実行月を指定します。選択した日であれば実行されます。</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group row border-bottom p-2">
+                        <div class="col-sm-2 d-flex align-items-center justify-content-end ">
+                            <label class="form-control-label" for="jobnetStartTime">開始時刻</label>
+                        </div>
+                        <div class="col-sm-10 row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-outline-primary active">
+                                        <input type="radio" name="isEnable" id="isEnableTrue" autocomplete="off" checked>有効
+                                    </label>
+                                    <label class="btn btn-outline-danger">
+                                        <input type="radio" name="isEnable" id="isEnableFalse" autocomplete="off">無効
+                                    </label>
+                                </div>
+                                <small id="isEnableHelp" class="form-text text-muted">開始時刻の値をスケジュールに反映させるか指定します。有効にすると指定した時間に開始されます。</small>
+                            </div>
+                            <div class="col-sm-2">
+                                <input class="form-control" type="text" id="jobnetStartTimeHH" aria-describedby="jobnetStartTimeHHHelp" placeholder="12">
+                                <small id="jobnetStartTimeHHHelp" class="form-text text-muted">開始時刻（時）を入力します。</small>
+                            </div>
+                            <div class="col-sm-2">
+                                <input class="form-control" type="text" id="jobnetStartTimeMM" aria-describedby="jobnetStartTimeMMHelp" placeholder="12">
+                                <small id="jobnetStartTimeMMHelp" class="form-text text-muted">開始時刻（分）を入力します。</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row border-bottom p-2">
+                        <div class="col-sm-2 d-flex align-items-center justify-content-end ">
+                            <label class="form-control-label" for="jobnetStartTime">遅延監視時刻</label>
+                        </div>
+                        <div class="col-sm-10 row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-outline-primary active">
+                                        <input type="radio" name="isEnable" id="isEnableTrue" autocomplete="off" checked>有効
+                                    </label>
+                                    <label class="btn btn-outline-danger">
+                                        <input type="radio" name="isEnable" id="isEnableFalse" autocomplete="off">無効
+                                    </label>
+                                </div>
+                                <small id="isEnableHelp" class="form-text text-muted">終了予定時刻の遅延アラートを発生させるか指定します。有効にすると指定した時間を過ぎてもジョブネットが終了していなければにアラートが出力されます。</small>
+                            </div>
+                            <div class="col-sm-2">
+                                <input class="form-control" type="text" id="jobnetStartTimeHH" aria-describedby="jobnetStartTimeHHHelp" placeholder="12">
+                                <small id="jobnetStartTimeHHHelp" class="form-text text-muted">遅延監視時刻（時）を入力します。</small>
+                            </div>
+                            <div class="col-sm-2">
+                                <input class="form-control" type="text" id="jobnetStartTimeMM" aria-describedby="jobnetStartTimeMMHelp" placeholder="12">
+                                <small id="jobnetStartTimeMMHelp" class="form-text text-muted">遅延監視時刻（分）を入力します。</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row border-bottom p-2">
+                        <div class="col-sm-2 d-flex align-items-center justify-content-end ">
+                            <label class="form-control-label" for="jobnetStartTime">打切時刻</label>
+                        </div>
+                        <div class="col-sm-10 row">
+                            <div class="col-sm-12">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-outline-primary active">
+                                        <input type="radio" name="isEnable" id="isEnableTrue" autocomplete="off" checked>有効
+                                    </label>
+                                    <label class="btn btn-outline-danger">
+                                        <input type="radio" name="isEnable" id="isEnableFalse" autocomplete="off">無効
+                                    </label>
+                                </div>
+                                <small id="isEnableHelp" class="form-text text-muted">指定時間を超過した場合ジョブネットを打ち切るかを指定します。有効にすると指定した時間を過ぎた場合ジョブネットを強制終了します。</small>
+                            </div>
+                            <div class="col-sm-2">
+                                <input class="form-control" type="text" id="jobnetStartTimeHH" aria-describedby="jobnetStartTimeHHHelp" placeholder="12">
+                                <small id="jobnetStartTimeHHHelp" class="form-text text-muted">打切時刻（時）を入力します。</small>
+                            </div>
+                            <div class="col-sm-2">
+                                <input class="form-control" type="text" id="jobnetStartTimeMM" aria-describedby="jobnetStartTimeMMHelp" placeholder="12">
+                                <small id="jobnetStartTimeMMHelp" class="form-text text-muted">打切時刻（分）を入力します。</small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <div id="tab3" class="p-4 tab-pane">
+                    <h3>フロー</h3>
                     <% include ../partials/jobnetwork %>
                 </div>
+
                 <div id="tab4" class="p-4 tab-pane">
+                    <h3>リカバリーフロー</h3>
                     <% include ../partials/jobnetwork %>
                 </div>
             </div>
