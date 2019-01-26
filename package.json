@@ -8,12 +8,23 @@
     "url": "http://www.cklab.info"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "bootstrap-vue": "^2.0.0-rc.11",
+    "vue": "^2.5.21",
+    "vue-class-component": "^6.0.0",
+    "vue-property-decorator": "^7.0.0",
+    "vue-router": "^3.0.1",
     "ejs": "^2.6.1",
     "express": "^4.16.2",
     "socket.io-client": "^2.1.1",
     "typescript": "^3.2.1"
   },
   "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.3.0",
+    "@vue/cli-plugin-typescript": "^3.3.0",
+    "@vue/cli-service": "^3.3.0",
+    "typescript": "^3.0.0",
+    "vue-template-compiler": "^2.5.21",
     "@types/chai": "^4.1.2",
     "@types/ejs": "^2.6.0",
     "@types/express": "^4.16.0",
@@ -32,7 +43,10 @@
     "test": "node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha ./out/test/*.ut.js",
     "posttest": "remap-istanbul -i coverage/coverage.json -o html-report -t html",
     "start": "node ./out/app.js",
-    "postinstall": "tsc"
+    "postinstall": "tsc",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "repository": {
     "type": "git",
