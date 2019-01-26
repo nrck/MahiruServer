@@ -35,7 +35,7 @@ export default class Agent extends Vue {
 
   public getState() {
     this.axios
-      .get("http://192.168.2.36:17380/api/state")
+      .get("http://localhost:17380/api/state")
       .then(response => {
         this.items = response.data.agent;
         this.items.forEach(row => {
