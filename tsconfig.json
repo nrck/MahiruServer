@@ -1,22 +1,38 @@
 {
     "compilerOptions": {
-        "target": "es2017",
-        "module": "commonjs",
+        "target": "esnext",
+        "module": "esnext",
         "declaration": true,
         "outDir": "./out",
         "removeComments": true,
         "sourceMap": true,
         "strict": true,
+        "importHelpers": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": true ,
+        "noUnusedParameters": true,
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
         "forceConsistentCasingInFileNames": true,
-        "noImplicitThis": true
+        "noImplicitThis": true,
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": ".",
+        "types": [
+            "webpack-env"
+        ],
+        "paths": {
+            "@/*": [
+                "src/*"
+            ]
+        }
     },
     "include": [
-        "src/**/*",
-        "test/**/*"
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.vue",
+        "test/**/*.ts",
+        "test/**/*.tsx"
     ],
     "exclude": [
         "node_modules/**/*",
