@@ -13,7 +13,13 @@
         <DefineJobnet class="p-4"/>
       </b-tab>
       <b-tab title="ジョブネットを追加する">
-        <br>I'm the second tab content
+        <div class="p-4">
+          <h3>ジョブネットを追加する</h3>
+          <b-form-group id="newJobnetName">
+            <b-form-input id="newJobnetName" type="text" required placeholder="新しいジョブネット名を入力します"></b-form-input>
+          </b-form-group>
+          <b-button type="submit" variant="primary">作成</b-button>
+        </div>
       </b-tab>
     </b-tabs>
   </div>
