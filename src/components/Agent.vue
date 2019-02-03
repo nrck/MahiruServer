@@ -34,8 +34,12 @@ export default class Agent extends Vue {
   }
 
   public getState() {
+    setTimeout(() => {
+      this.getState();
+    }, 5000);
+
     this.axios
-      .get("http://localhost:17380/api/state")
+      .get("http://192.168.2.36:17380/api/state")
       .then(response => {
         this.items = response.data.agent;
         this.items.forEach(row => {
@@ -49,12 +53,8 @@ export default class Agent extends Vue {
         });
       })
       .catch(err => {
-        console.log(err);
+        this.items = [];
       });
-
-    setTimeout(() => {
-      this.getState();
-    }, 5000);
   }
 }
 </script>

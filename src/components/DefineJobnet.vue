@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h4>実行中ジョブネット</h4>
-    <p v-if='this.items.length == 0'>実行中のジョブネットはありません</p>
+    <h4>ジョブネット定義</h4>
+    <p v-if="this.items.length == 0">ジョブネットの定義はありません</p>
     <b-table v-else striped hover :items="this.items" :fields="this.fields"/>
   </div>
 </template>
@@ -14,7 +14,21 @@ import * as Axios from "axios";
 export default class RunJobnet extends Vue {
   @Prop()
   public items;
-  //public fields = ["connected", "name", "ipaddress"];
+  public fields = [
+    { name: "ジョブネット名" },
+    { info: "説明" },
+    {
+      key: "schedule",
+      label: "開始時刻",
+      formatter: value => {
+        var time = value.start.time;
+        var month = value.month.operation;
+        var day = value.day.operation;
+        return month + " " + day + " at " + time;
+      }
+    
+    }
+  ];
   private axios = Axios.default;
 
   public data() {
@@ -35,9 +49,9 @@ export default class RunJobnet extends Vue {
     }, 5000);
 
     this.axios
-      .get("http://192.168.2.36:17380/api/state")
+      .get("http://192.168.2.36:17380/api/jobnet")
       .then(response => {
-        this.items = response.data.jobnet;
+        this.items = response.data.define;
       })
       .catch(err => {
         this.items = [];

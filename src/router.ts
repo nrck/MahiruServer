@@ -1,30 +1,33 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
+import AgentList from './views/AgentList.vue';
 import Dashboard from './views/Dashboard.vue';
+import JobnetList from './views/Jobnet.vue';
 
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes: [
+  'base': process.env.BASE_URL,
+  'mode': 'history',
+  'routes': [
     {
-      path: '/',
-      name: 'home',
-      component: Home,
+      'component': Dashboard,
+      'name': 'home',
+      'path': '/'
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue'),
+      'component': Dashboard,
+      'name': 'dashboard',
+      'path': '/Dashboard'
     },
     {
-      path: '/Dashboard',
-      name: 'dashboard',
-      component: Dashboard,
-    }],
+      'component': AgentList,
+      'name': 'agentlist',
+      'path': '/Agent'
+    },
+    {
+      'component': JobnetList,
+      'name': 'jobnetlist',
+      'path': '/Jobnet'
+    }]
 });

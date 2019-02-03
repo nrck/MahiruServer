@@ -46,6 +46,7 @@
             }
             response.status(200);
             response.header("Content-Type", "application/json; charset=utf-8");
+            response.header("Access-Control-Allow-Origin", "*");
             response.end(JSON.stringify(jobnet, undefined, '  '));
             return;
     }

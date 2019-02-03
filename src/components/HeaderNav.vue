@@ -4,11 +4,11 @@
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav>
-        <b-nav-item href="#">Dashboard</b-nav-item>
-        <b-nav-item href="#">Jobnet</b-nav-item>
-        <b-nav-item href="#">Agent</b-nav-item>
-        <b-nav-item href="#">History</b-nav-item>
-        <b-nav-item href="#">Setting</b-nav-item>
+        <b-nav-item href="/dashboard">Dashboard</b-nav-item>
+        <b-nav-item href="/jobnet">Jobnet</b-nav-item>
+        <b-nav-item href="/agent">Agent</b-nav-item>
+        <b-nav-item href="/history">History</b-nav-item>
+        <b-nav-item href="/setting">Setting</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
