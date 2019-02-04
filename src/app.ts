@@ -1,5 +1,5 @@
 import * as bodyParser from 'body-parser';
-import * as Express from 'express';
+import Express from 'express';
 import * as fs from 'fs';
 import { Api } from './api';
 import { ClientManager } from './clientManager';

@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import * as SocketIOClient from 'socket.io-client';
+import SocketIOClient from 'socket.io-client';
 import { Common } from './common';
 import { ApiContextifiedSandbox, CollectInfo, Jobnet, JobnetJSON } from './interface';
 
